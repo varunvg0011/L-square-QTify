@@ -2,6 +2,7 @@ import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Hero from './Components/Hero/Hero';
 import Section from './Components/Section/Section';
+import SongsSection from './Components/SongsSection/SongsSection';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         title="New Albums" 
         apiEndpoint="https://qtify-backend.labs.crio.do/albums/new"
       />
+      <SongsSection />
     </div>
   );
 }
