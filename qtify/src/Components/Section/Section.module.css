@@ -34,55 +34,22 @@
   opacity: 0.8;
 }
 
-.carouselContainer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  position: relative;
-}
-
 .grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 24px;
   row-gap: 24px;
-  flex: 1;
-}
-
-.navButton {
-  background: transparent;
-  border: 1px solid #404040;
-  color: #ffffff;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  font-size: 18px;
-}
-
-.navButton:hover:not(:disabled) {
-  background-color: #2ecc71;
-  border-color: #2ecc71;
-}
-
-.navButton:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
 }
 
 @media (max-width: 1200px) {
   .grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }
 

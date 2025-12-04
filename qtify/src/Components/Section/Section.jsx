@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../Card/Card";
+import Carousel from "../Carousel/Carousel";
 import styles from "./Section.module.css";
 
 export default function Section({ title = "Top Albums", apiEndpoint = "https://qtify-backend.labs.crio.do/albums/top" }) {
@@ -7,7 +8,6 @@ export default function Section({ title = "Top Albums", apiEndpoint = "https://q
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [carouselIndex, setCarouselIndex] = useState(0);
 
   useEffect(() => {
     const fetchAlbums = async () => {
@@ -36,17 +36,13 @@ export default function Section({ title = "Top Albums", apiEndpoint = "https://q
     setIsCollapsed(!isCollapsed);
   };
 
-  const handleNextClick = () => {
-    setCarouselIndex((prevIndex) => 
-      prevIndex + 2 < albums.length ? prevIndex + 2 : prevIndex
-    );
-  };
-
-  const handlePrevClick = () => {
-    setCarouselIndex((prevIndex) => (prevIndex - 2 >= 0 ? prevIndex - 2 : 0));
-  };
-
-  const visibleAlbums = isCollapsed ? [] : albums.slice(carouselIndex, carouselIndex + 6);
+  const renderCard = (album) => (
+    <Card
+      image={album.image}
+      title={album.title}
+      follows={album.follows}
+    />
+  );
 
   return (
     <section className={styles.section}>
@@ -63,33 +59,18 @@ export default function Section({ title = "Top Albums", apiEndpoint = "https://q
       {loading && <p className={styles.loading}>Loading albums...</p>}
       {error && <p className={styles.error}>{error}</p>}
 
-      {!isCollapsed && !loading && albums.length > 0 && (
-        <div className={styles.carouselContainer}>
-          <button
-            className={styles.navButton}
-            onClick={handlePrevClick}
-            disabled={carouselIndex === 0}
-          >
-            &#60;
-          </button>
-          <div className={styles.grid}>
-            {visibleAlbums.map((album) => (
-              <Card
-                key={album.id}
-                image={album.image}
-                title={album.title}
-                follows={album.follows}
-              />
-            ))}
-          </div>
-          <button
-            className={styles.navButton}
-            onClick={handleNextClick}
-            disabled={carouselIndex + 2 >= albums.length}
-          >
-            &#62;
-          </button>
-        </div>
+      {!loading && albums.length > 0 && (
+        <>
+          {isCollapsed ? (
+            <Carousel data={albums} renderItem={renderCard} />
+          ) : (
+            <div className={styles.grid}>
+              {albums.map((album) => (
+                <div key={album.id}>{renderCard(album)}</div>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </section>
   );
